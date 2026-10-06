@@ -28,6 +28,11 @@ variable "default_route_cidr" {
   type        = string
 }
 
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+}
+
 variable "admin_ip" {
   description = "Public IP allowed to SSH to the bastion host (use x.x.x.x/32)"
   type        = string
