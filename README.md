@@ -332,3 +332,11 @@ Healthy
 ```
 
 for all registered targets.
+
+Lessons Learned - Focus points
+
+- Security Groups require both ingress and egress rules.
+- Private instances require a NAT Gateway for outbound internet access.
+- SSH Agent Forwarding allows Bastion -> Private EC2 access without copying private keys.
+- Sinatra 4 requires additional dependencies (rackup, puma).
+- Puma native extensions require ruby3.2-devel.
