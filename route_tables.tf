@@ -1,6 +1,6 @@
 resource "aws_route_table" "public" {
 
-  vpc_id = aws_vpc.this.id
+  vpc_id = module.vpc.vpc_id
 
   route {
     cidr_block = var.default_route_cidr
@@ -29,7 +29,7 @@ resource "aws_route_table_association" "public_az3" {
 
 resource "aws_route_table" "private" {
 
-  vpc_id = aws_vpc.this.id
+  vpc_id = module.vpc.vpc_id
 
   route {
     cidr_block = var.default_route_cidr

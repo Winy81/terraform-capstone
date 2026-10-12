@@ -1,6 +1,6 @@
 resource "aws_internet_gateway" "this" {
 
-  vpc_id = aws_vpc.this.id
+  vpc_id = module.vpc.vpc_id
 
   tags = {
     Name = "adam-igw"
