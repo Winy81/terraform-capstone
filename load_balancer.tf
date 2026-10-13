@@ -9,11 +9,11 @@ resource "aws_lb" "this" {
   ]
 
   subnets = [
-    aws_subnet.public_az1.id,
-    aws_subnet.public_az2.id,
-    aws_subnet.public_az3.id
+    module.vpc.public_az1_subnet_id,
+    module.vpc.public_az2_subnet_id,
+    module.vpc.public_az3_subnet_id
   ]
-
+ 
   tags = merge(
     local.common_tags,
     {

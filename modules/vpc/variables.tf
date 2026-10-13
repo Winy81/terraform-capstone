@@ -22,3 +22,8 @@ variable "private_subnet_cidrs" {
   description = "Private subnet CIDRs"
   type        = list(string)
 }
+
+variable "default_route_cidr" {
+  description = "Default route CIDR"
+  type        = string
+}

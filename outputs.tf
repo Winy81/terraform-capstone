@@ -2,23 +2,23 @@
 # In production these would normally be reduced or removed.
 
 output "internet_gateway_id" {
-  value = aws_internet_gateway.this.id
+  value = module.vpc.aws_internet_gateway_id
 }
 
 output "nat_gateway_id" {
-  value = aws_nat_gateway.this.id
+  value = module.vpc.nat_gateway_id
 }
 
 output "nat_eip" {
-  value = aws_eip.this.public_ip
+  value = module.vpc.nat_eip
 }
 
 output "public_route_table_id" {
-  value = aws_route_table.public.id
+  value = module.vpc.public_route_table_id
 }
 
 output "private_route_table_id" {
-  value = aws_route_table.private.id
+  value = module.vpc.private_route_table_id
 }
 
 output "bastion_public_ip" {

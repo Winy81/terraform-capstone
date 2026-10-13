@@ -3,7 +3,7 @@ resource "aws_instance" "app_az1" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
 
-  subnet_id = aws_subnet.private_az1.id
+  subnet_id = module.vpc.private_az1_subnet_id
 
   vpc_security_group_ids = [
     aws_security_group.app.id
@@ -24,7 +24,7 @@ resource "aws_instance" "app_az2" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
 
-  subnet_id = aws_subnet.private_az2.id
+  subnet_id = module.vpc.private_az2_subnet_id
 
   vpc_security_group_ids = [
     aws_security_group.app.id
@@ -45,7 +45,7 @@ resource "aws_instance" "app_az3" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
 
-  subnet_id = aws_subnet.private_az3.id
+  subnet_id = module.vpc.private_az3_subnet_id
 
   vpc_security_group_ids = [
     aws_security_group.app.id
