@@ -22,11 +22,11 @@ output "private_route_table_id" {
 }
 
 output "bastion_public_ip" {
-  value = aws_instance.bastion.public_ip
+  value = module.bastion.public_ip
 }
 
 output "bastion_instance_id" {
-  value = aws_instance.bastion.id
+  value = module.bastion.instance_id
 }
 
 output "app_az1_instance_id" {

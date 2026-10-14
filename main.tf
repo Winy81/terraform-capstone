@@ -32,3 +32,13 @@ module "security_groups" {
   default_route_cidr = var.default_route_cidr
   common_tags        = local.common_tags
 }
+
+module "bastion" {
+  source = "./modules/bastion"
+
+  ami_id            = data.aws_ami.amazon_linux.id
+  instance_type     = var.instance_type
+  subnet_id         = module.vpc.public_az1_subnet_id
+  security_group_id = module.security_groups.bastion_security_group_id
+  common_tags       = local.common_tags
+}
