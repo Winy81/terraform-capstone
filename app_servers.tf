@@ -6,7 +6,7 @@ resource "aws_instance" "app_az1" {
   subnet_id = module.vpc.private_az1_subnet_id
 
   vpc_security_group_ids = [
-    aws_security_group.app.id
+    module.security_groups.app_security_group_id
   ]
 
   key_name = "adam-ec2-key"
@@ -27,7 +27,7 @@ resource "aws_instance" "app_az2" {
   subnet_id = module.vpc.private_az2_subnet_id
 
   vpc_security_group_ids = [
-    aws_security_group.app.id
+    module.security_groups.app_security_group_id
   ]
 
   key_name = "adam-ec2-key"
@@ -48,7 +48,7 @@ resource "aws_instance" "app_az3" {
   subnet_id = module.vpc.private_az3_subnet_id
 
   vpc_security_group_ids = [
-    aws_security_group.app.id
+    module.security_groups.app_security_group_id
   ]
 
   key_name = "adam-ec2-key"

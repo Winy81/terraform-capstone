@@ -66,17 +66,17 @@ output "target_group_arn" {
 }
 
 output "alb_security_group_id" {
-  value = aws_security_group.alb.id
+  value = module.security_groups.alb_security_group_id
 }
 
 output "bastion_security_group_id" {
-  value = aws_security_group.bastion.id
+  value = module.security_groups.bastion_security_group_id
 }
 
 output "app_security_group_id" {
-  value = aws_security_group.app.id
+  value = module.security_groups.app_security_group_id
 }
 
 output "db_security_group_id" {
-  value = aws_security_group.db.id
+  value = module.security_groups.db_security_group_id
 }

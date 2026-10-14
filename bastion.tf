@@ -6,7 +6,7 @@ resource "aws_instance" "bastion" {
   subnet_id = module.vpc.public_az1_subnet_id
 
   vpc_security_group_ids = [
-    aws_security_group.bastion.id
+    module.security_groups.bastion_security_group_id
   ]
 
   associate_public_ip_address = true

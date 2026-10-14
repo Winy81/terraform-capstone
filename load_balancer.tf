@@ -5,7 +5,7 @@ resource "aws_lb" "this" {
   load_balancer_type = "application"
 
   security_groups = [
-    aws_security_group.alb.id
+    module.security_groups.alb_security_group_id
   ]
 
   subnets = [

@@ -23,3 +23,12 @@ module "vpc" {
 
   common_tags = local.common_tags
 }
+
+module "security_groups" {
+  source = "./modules/security_groups"
+
+  vpc_id             = module.vpc.vpc_id
+  admin_ip           = var.admin_ip
+  default_route_cidr = var.default_route_cidr
+  common_tags        = local.common_tags
+}
