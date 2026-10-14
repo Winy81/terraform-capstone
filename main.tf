@@ -42,3 +42,18 @@ module "bastion" {
   security_group_id = module.security_groups.bastion_security_group_id
   common_tags       = local.common_tags
 }
+
+module "app_servers" {
+  source = "./modules/app_servers"
+
+  ami_id        = data.aws_ami.amazon_linux.id
+  instance_type = var.instance_type
+
+  private_az1_subnet_id = module.vpc.private_az1_subnet_id
+  private_az2_subnet_id = module.vpc.private_az2_subnet_id
+  private_az3_subnet_id = module.vpc.private_az3_subnet_id
+
+  security_group_id = module.security_groups.app_security_group_id
+
+  common_tags = local.common_tags
+}
