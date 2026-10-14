@@ -54,15 +54,15 @@ output "app_az3_private_ip" {
 }
 
 output "alb_dns_name" {
-  value = aws_lb.this.dns_name
+  value = module.alb.dns_name
 }
 
 output "alb_arn" {
-  value = aws_lb.this.arn
+  value = module.alb.arn
 }
 
 output "target_group_arn" {
-  value = aws_lb_target_group.this.arn
+  value = module.alb.target_group_arn
 }
 
 output "alb_security_group_id" {

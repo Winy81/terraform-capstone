@@ -57,3 +57,25 @@ module "app_servers" {
 
   common_tags = local.common_tags
 }
+
+module "alb" {
+  source = "./modules/alb"
+
+  vpc_id = module.vpc.vpc_id
+
+  public_subnet_ids = [
+    module.vpc.public_az1_subnet_id,
+    module.vpc.public_az2_subnet_id,
+    module.vpc.public_az3_subnet_id
+  ]
+
+  security_group_id = module.security_groups.alb_security_group_id
+
+  app_instance_ids = [
+    module.app_servers.app_az1_instance_id,
+    module.app_servers.app_az2_instance_id,
+    module.app_servers.app_az3_instance_id
+  ]
+
+  common_tags = local.common_tags
+}
