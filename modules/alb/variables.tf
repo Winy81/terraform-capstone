@@ -4,18 +4,18 @@ variable "vpc_id" {
 }
 
 variable "public_subnet_ids" {
-  description = "Public subnet IDs for the ALB"
-  type        = list(string)
+  description = "Public subnet IDs by availability zone"
+  type        = map(string)
+}
+
+variable "app_instance_ids" {
+  description = "Application instance IDs by availability zone"
+  type        = map(string)
 }
 
 variable "security_group_id" {
   description = "ALB security group ID"
   type        = string
-}
-
-variable "app_instance_ids" {
-  description = "Application instance IDs"
-  type        = list(string)
 }
 
 variable "common_tags" {

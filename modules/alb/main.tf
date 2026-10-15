@@ -7,7 +7,7 @@ resource "aws_lb" "this" {
     var.security_group_id
   ]
 
-  subnets = var.public_subnet_ids
+  subnets = values(var.public_subnet_ids)
 
   tags = merge(
     var.common_tags,
@@ -53,20 +53,10 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "app_az1" {
-  target_group_arn = aws_lb_target_group.this.arn
-  target_id        = var.app_instance_ids[0]
-  port             = 80
-}
+resource "aws_lb_target_group_attachment" "app" {
+  for_each = var.app_instance_ids
 
-resource "aws_lb_target_group_attachment" "app_az2" {
   target_group_arn = aws_lb_target_group.this.arn
-  target_id        = var.app_instance_ids[1]
-  port             = 80
-}
-
-resource "aws_lb_target_group_attachment" "app_az3" {
-  target_group_arn = aws_lb_target_group.this.arn
-  target_id        = var.app_instance_ids[2]
+  target_id        = each.value
   port             = 80
 }
