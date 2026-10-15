@@ -6,10 +6,10 @@ resource "aws_security_group" "alb" {
 
   name        = "adam-alb-sg"
   description = "Application Load Balancer security group"
-  vpc_id      = aws_vpc.this.id
+  vpc_id      = var.vpc_id
 
   tags = merge(
-    local.common_tags,
+    var.common_tags,
     {
       Name = "adam-alb-sg"
     }
@@ -20,10 +20,10 @@ resource "aws_security_group" "bastion" {
 
   name        = "adam-bastion-sg"
   description = "Bastion host security group"
-  vpc_id      = aws_vpc.this.id
+  vpc_id      = var.vpc_id
 
   tags = merge(
-    local.common_tags,
+    var.common_tags,
     {
       Name = "adam-bastion-sg"
     }
@@ -34,10 +34,10 @@ resource "aws_security_group" "app" {
 
   name        = "adam-app-sg"
   description = "Application server security group"
-  vpc_id      = aws_vpc.this.id
+  vpc_id      = var.vpc_id
 
   tags = merge(
-    local.common_tags,
+    var.common_tags,
     {
       Name = "adam-app-sg"
     }
@@ -48,10 +48,10 @@ resource "aws_security_group" "db" {
 
   name        = "adam-db-sg"
   description = "Database security group"
-  vpc_id      = aws_vpc.this.id
+  vpc_id      = var.vpc_id
 
   tags = merge(
-    local.common_tags,
+    var.common_tags,
     {
       Name = "adam-db-sg"
     }

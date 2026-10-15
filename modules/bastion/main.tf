@@ -1,12 +1,12 @@
 resource "aws_instance" "bastion" {
 
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = var.ami_id
   instance_type = var.instance_type
 
-  subnet_id = aws_subnet.public_az1.id
+  subnet_id = var.subnet_id
 
   vpc_security_group_ids = [
-    aws_security_group.bastion.id
+    var.security_group_id
   ]
 
   associate_public_ip_address = true
@@ -14,10 +14,9 @@ resource "aws_instance" "bastion" {
   key_name = "adam-ec2-key"
 
   tags = merge(
-    local.common_tags,
+    var.common_tags,
     {
       Name = "adam-bastion"
     }
   )
-
 }

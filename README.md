@@ -173,6 +173,16 @@ HTTP 200
 
 response.
 
+
+### Docker
+
+Dockerfile
+    Production-style immutable image
+
+Dockerfile.dev
+    Development runtime with mounted volumes
+
+
 ### Application Files
 
 #### app.rb
