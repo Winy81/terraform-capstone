@@ -1,8 +1,10 @@
-resource "aws_instance" "app_az1" {
+resource "aws_instance" "app" {
+  for_each = var.private_subnet_ids
+
   ami           = var.ami_id
   instance_type = var.instance_type
 
-  subnet_id = var.private_az1_subnet_id
+  subnet_id = each.value
 
   vpc_security_group_ids = [
     var.security_group_id
@@ -13,47 +15,7 @@ resource "aws_instance" "app_az1" {
   tags = merge(
     var.common_tags,
     {
-      Name = "adam-app-az1"
-    }
-  )
-}
-
-resource "aws_instance" "app_az2" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-
-  subnet_id = var.private_az2_subnet_id
-
-  vpc_security_group_ids = [
-    var.security_group_id
-  ]
-
-  key_name = "adam-ec2-key"
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "adam-app-az2"
-    }
-  )
-}
-
-resource "aws_instance" "app_az3" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-
-  subnet_id = var.private_az3_subnet_id
-
-  vpc_security_group_ids = [
-    var.security_group_id
-  ]
-
-  key_name = "adam-ec2-key"
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "adam-app-az3"
+      Name = "adam-app-${each.key}"
     }
   )
 }

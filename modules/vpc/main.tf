@@ -18,80 +18,32 @@ resource "aws_vpc" "this" {
 # Subnets
 ########################################
 
-resource "aws_subnet" "public_az1" {
+resource "aws_subnet" "public" {
+  for_each = var.public_subnets
+
   vpc_id            = aws_vpc.this.id
-  cidr_block = var.public_subnet_cidrs[0]
-  availability_zone = var.availability_zones[0]
+  cidr_block        = each.value.cidr_block
+  availability_zone = each.value.availability_zone
 
   tags = merge(
     var.common_tags,
     {
-      Name = "adam-public-az1"
+      Name = "adam-public-${each.key}"
     }
   )
 }
 
-resource "aws_subnet" "public_az2" {
+resource "aws_subnet" "private" {
+  for_each = var.private_subnets
+
   vpc_id            = aws_vpc.this.id
-  cidr_block = var.public_subnet_cidrs[1]
-  availability_zone = var.availability_zones[1]
+  cidr_block        = each.value.cidr_block
+  availability_zone = each.value.availability_zone
 
   tags = merge(
     var.common_tags,
     {
-      Name = "adam-public-az2"
-    }
-  )
-}
-
-resource "aws_subnet" "public_az3" {
-  vpc_id            = aws_vpc.this.id
-  cidr_block = var.public_subnet_cidrs[2]
-  availability_zone = var.availability_zones[2]
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "adam-public-az3"
-    }
-  )
-}
-
-resource "aws_subnet" "private_az1" {
-  vpc_id            = aws_vpc.this.id
-  cidr_block = var.private_subnet_cidrs[0]
-  availability_zone = var.availability_zones[0]
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "adam-private-az1"
-    }
-  )
-}
-
-resource "aws_subnet" "private_az2" {
-  vpc_id            = aws_vpc.this.id
-  cidr_block = var.private_subnet_cidrs[1]
-  availability_zone = var.availability_zones[1]
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "adam-private-az2"
-    }
-  )
-}
-
-resource "aws_subnet" "private_az3" {
-  vpc_id            = aws_vpc.this.id
-  cidr_block = var.private_subnet_cidrs[2]
-  availability_zone = var.availability_zones[2]
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "adam-private-az3"
+      Name = "adam-private-${each.key}"
     }
   )
 }
@@ -124,7 +76,7 @@ resource "aws_eip" "this" {
 
 resource "aws_nat_gateway" "this" {
   allocation_id = aws_eip.this.id
-  subnet_id     = aws_subnet.public_az1.id
+  subnet_id = aws_subnet.public[var.nat_gateway_subnet_key].id
 
   tags = merge(
     var.common_tags,
@@ -170,32 +122,17 @@ resource "aws_route_table" "private" {
   )
 }
 
-resource "aws_route_table_association" "public_az1" {
-  subnet_id      = aws_subnet.public_az1.id
+resource "aws_route_table_association" "public" {
+  for_each = aws_subnet.public
+
+  subnet_id      = each.value.id
   route_table_id = aws_route_table.public.id
 }
 
-resource "aws_route_table_association" "public_az2" {
-  subnet_id      = aws_subnet.public_az2.id
-  route_table_id = aws_route_table.public.id
-}
+resource "aws_route_table_association" "private" {
+  for_each = aws_subnet.private
 
-resource "aws_route_table_association" "public_az3" {
-  subnet_id      = aws_subnet.public_az3.id
-  route_table_id = aws_route_table.public.id
-}
-
-resource "aws_route_table_association" "private_az1" {
-  subnet_id      = aws_subnet.private_az1.id
+  subnet_id      = each.value.id
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_route_table_association" "private_az2" {
-  subnet_id      = aws_subnet.private_az2.id
-  route_table_id = aws_route_table.private.id
-}
-
-resource "aws_route_table_association" "private_az3" {
-  subnet_id      = aws_subnet.private_az3.id
-  route_table_id = aws_route_table.private.id
-}

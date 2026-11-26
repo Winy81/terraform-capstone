@@ -8,19 +8,9 @@ variable "instance_type" {
   type        = string
 }
 
-variable "private_az1_subnet_id" {
-  description = "Private subnet ID for AZ1"
-  type        = string
-}
-
-variable "private_az2_subnet_id" {
-  description = "Private subnet ID for AZ2"
-  type        = string
-}
-
-variable "private_az3_subnet_id" {
-  description = "Private subnet ID for AZ3"
-  type        = string
+variable "private_subnet_ids" {
+  description = "Private subnet IDs by availability zone"
+  type        = map(string)
 }
 
 variable "security_group_id" {

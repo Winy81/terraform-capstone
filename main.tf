@@ -15,11 +15,12 @@ terraform {
 module "vpc" {
   source = "./modules/vpc"
 
-  vpc_cidr            = var.vpc_cidr
-  availability_zones  = var.availability_zones
-  public_subnet_cidrs = var.public_subnet_cidrs
-  private_subnet_cidrs = var.private_subnet_cidrs
-  default_route_cidr  = var.default_route_cidr
+  vpc_cidr           = var.vpc_cidr
+  public_subnets     = var.public_subnets
+  private_subnets    = var.private_subnets
+  default_route_cidr = var.default_route_cidr
+
+  nat_gateway_subnet_key = var.nat_gateway_subnet_key
 
   common_tags = local.common_tags
 }
@@ -38,7 +39,7 @@ module "bastion" {
 
   ami_id            = data.aws_ami.amazon_linux.id
   instance_type     = var.instance_type
-  subnet_id         = module.vpc.public_az1_subnet_id
+  subnet_id = module.vpc.public_subnet_ids["az1"]
   security_group_id = module.security_groups.bastion_security_group_id
   common_tags       = local.common_tags
 }
@@ -49,13 +50,10 @@ module "app_servers" {
   ami_id        = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
 
-  private_az1_subnet_id = module.vpc.private_az1_subnet_id
-  private_az2_subnet_id = module.vpc.private_az2_subnet_id
-  private_az3_subnet_id = module.vpc.private_az3_subnet_id
+  private_subnet_ids = module.vpc.private_subnet_ids
 
   security_group_id = module.security_groups.app_security_group_id
-
-  common_tags = local.common_tags
+  common_tags       = local.common_tags
 }
 
 module "alb" {
@@ -63,19 +61,11 @@ module "alb" {
 
   vpc_id = module.vpc.vpc_id
 
-  public_subnet_ids = [
-    module.vpc.public_az1_subnet_id,
-    module.vpc.public_az2_subnet_id,
-    module.vpc.public_az3_subnet_id
-  ]
+  public_subnet_ids = module.vpc.public_subnet_ids
 
   security_group_id = module.security_groups.alb_security_group_id
 
-  app_instance_ids = [
-    module.app_servers.app_az1_instance_id,
-    module.app_servers.app_az2_instance_id,
-    module.app_servers.app_az3_instance_id
-  ]
+  app_instance_ids = module.app_servers.instance_ids
 
   common_tags = local.common_tags
 }

@@ -3,24 +3,32 @@ variable "region" {
   type        = string
 }
 
-variable "availability_zones" {
-  description = "Availability zones"
-  type        = list(string)
+variable "public_subnets" {
+  description = "Public subnet configurations by availability zone"
+
+  type = map(object({
+    cidr_block        = string
+    availability_zone = string
+  }))
+}
+
+variable "private_subnets" {
+  description = "Private subnet configurations by availability zone"
+
+  type = map(object({
+    cidr_block        = string
+    availability_zone = string
+  }))
+}
+
+variable "nat_gateway_subnet_key" {
+  description = "Key of the public subnet containing the NAT Gateway"
+  type        = string
 }
 
 variable "vpc_cidr" {
   description = "VPC CIDR block"
   type        = string
-}
-
-variable "public_subnet_cidrs" {
-  description = "Public subnet CIDR blocks"
-  type        = list(string)
-}
-
-variable "private_subnet_cidrs" {
-  description = "Private subnet CIDR blocks"
-  type        = list(string)
 }
 
 variable "default_route_cidr" {
